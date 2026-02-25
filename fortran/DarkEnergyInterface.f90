@@ -50,7 +50,7 @@
     real(dl) :: w_de, al
     real(dl), intent(IN) :: a,M,N,omega_de,omega_node,wM,cri,E2
 
-!     w_de = omega_node*(1._dl+wM)*M/(omega_de*sqrt(omega_node*E2+N)) - 1._dl
+!     w_de = omega_node*(1._dl+wM)*M/(omega_de*sqrt(omega_node+N)) - 1._dl
 
 
     end function w_de  ! equation of state of the PPF DE
@@ -76,10 +76,10 @@
 
     end subroutine Init
 
-    subroutine BackgroundDensityAndPressure(this, grhov, a, grhov_t, w,M,N,grho_node_t,gpre_node_t,cri)
+    subroutine BackgroundDensityAndPressure(this, grhov, a, grhov_t, w,M,N,gpre_no_de,grho_node_t,cri)
     !Get grhov_t = 8*pi*rho_de*a**2 and equation of state at scale factor a
     class(TDarkEnergyModel), intent(inout) :: this
-    real(dl), intent(in) :: grhov,a,  M,N,grho_node_t,cri,gpre_node_t
+    real(dl), intent(in) :: grhov,a,  M,N,gpre_no_de,grho_node_t,cri
     real(dl), intent(out) :: grhov_t
     real(dl), optional, intent(out) :: w
     real(dl) :: omega_node,omega_de,A1,grhoN,grhoM2,grhoA1,wM,E2
@@ -87,9 +87,7 @@
 
 !!!!WMG!!!!
 
-    grhoM2 = M**2._dl*cri
-    grhoN = N*cri
-      
+    grhoN = N*cri      
     grhov_t= (grhov - 2._dl*M*sqrt(cri)*sqrt(cri-grhov+grhoN) ) *a**2._dl + 2._dl*M*sqrt(cri)* sqrt(grho_node_t+(grhoN)*a**4._dl)
 
 !!!!WMG!!!!    

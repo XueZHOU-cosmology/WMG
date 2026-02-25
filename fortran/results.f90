@@ -937,7 +937,7 @@
     integer nu_i,i
     do i=1, n
         a = a_arr(i)
-        call this%CP%DarkEnergy%BackgroundDensityAndPressure(this%grhov, a, grhov_t,w,this%CP%M,this%CP%N,this%grho_no_de(a),this%gpre_no_de(a),this%grhocrit)
+        call this%CP%DarkEnergy%BackgroundDensityAndPressure(this%grhov, a, grhov_t,w,this%CP%M,this%CP%N,this%gpre_no_de(a),this%grho_no_de(a),this%grhocrit)
         grhonu = 0
 
         if (this%CP%Num_Nu_massive /= 0) then
@@ -1061,7 +1061,7 @@
     integer i
     real(dl) omegar,omegam
     do i=1, n
-        call this%CP%DarkEnergy%BackgroundDensityAndPressure( this%grhov , a(i), grhov_t(i), w(i),this%CP%M,this%CP%N,this%grho_no_de(a(i)),this%gpre_no_de(a(i)),this%grhocrit)
+        call this%CP%DarkEnergy%BackgroundDensityAndPressure( this%grhov , a(i), grhov_t(i), w(i),this%CP%M,this%CP%N,this%gpre_no_de(a(i)),this%grho_no_de(a(i)),this%grhocrit)
     end do
     grhov_t = grhov_t/a**2
 

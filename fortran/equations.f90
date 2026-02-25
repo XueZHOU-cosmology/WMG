@@ -9,7 +9,7 @@
     real(dl), intent(in) :: a
     real(dl) :: dtauda, grhoa2, grhov_de,grhov_t,w
     !  8*pi*G*rho*a**4.
-    call this%CP%DarkEnergy%BackgroundDensityAndPressure(this%grhov, a, grhov_t,w,this%CP%M,this%CP%N,this%grho_no_de(a),this%gpre_no_de(a),this%grhocrit)
+    call this%CP%DarkEnergy%BackgroundDensityAndPressure(this%grhov, a, grhov_t,w,this%CP%M,this%CP%N,this%gpre_no_de(a),this%grho_no_de(a),this%grhocrit)
 
     grhoa2 = this%grho_no_de(a) +  grhov_t * a**2
     if (grhoa2 <= 0) then
@@ -2202,7 +2202,7 @@
     grhor_t=State%grhornomass/a2
     grhog_t=State%grhog/a2
     
-    call State%CP%DarkEnergy%BackgroundDensityAndPressure(State%grhov, a, grhov_t, w_dark_energy_t,State%CP%M,State%CP%N,State%grho_no_de(a),State%gpre_no_de(a),State%grhocrit)
+    call State%CP%DarkEnergy%BackgroundDensityAndPressure(State%grhov, a, grhov_t, w_dark_energy_t,State%CP%M,State%CP%N,State%gpre_no_de(a),State%grho_no_de(a),State%grhocrit)
     
 
     !total perturbations: matter terms first, then add massive nu, de and radiation
@@ -2223,9 +2223,10 @@
     gpres_noDE = gpres_nu + (grhor_t + grhog_t)/3._dl
 
 !!!!WMG!!!! 
-    EE = (c/(1000._dl*a**2*dtauda(State,a))/State%CP%H0)**2
-!     gpres = (gpres_noDE + grho_matter)*( 1._dl + State%CP%M*a**1/sqrt(grho_matter/State%grhocrit*EE+State%CP%N*a**2) ) -  grho
-    gpres_DE = State%CP%M *a * (gpres_noDE + grho_matter )/(sqrt(grho_matter*EE/State%grhocrit + State%CP%N*a**2))-grhov_t*1._dl
+    EE = (c/(1000._dl*a**2._dl*dtauda(State,a))/State%CP%H0)**2._dl
+!     gpres = (gpres_noDE + grho_matter)*( 1._dl + State%CP%M*a**1/sqrt(grho_matter/State%grhocrit+State%CP%N*a**2) ) -  grho
+    gpres_DE = State%CP%M *a * (gpres_noDE + grho_matter )/(sqrt(grho_matter/State%grhocrit + State%CP%N*a**2._dl))-grhov_t
+
     gpres = gpres_noDE + gpres_DE
 
 !!!!WMG!!!!
@@ -2872,17 +2873,17 @@
     grhor_t=State%grhornomass/a2
     grhog_t=State%grhog/a2
 
-    call CP%DarkEnergy%BackgroundDensityAndPressure(State%grhov, a, grhov_t, w_dark_energy_t,State%CP%M,State%CP%N,State%grho_no_de(a),State%gpre_no_de(a),State%grhocrit)
+    call CP%DarkEnergy%BackgroundDensityAndPressure(State%grhov, a, grhov_t, w_dark_energy_t,State%CP%M,State%CP%N,State%gpre_no_de(a),State%grho_no_de(a),State%grhocrit)
     gpres_noDE = State%gpre_no_de(a)/a2
     grho_matter = State%grho_no_de(a)/a2
     grho=grho_matter+grhov_t
 
 
 !!!!WMG!!!!
-    EE = (c/(1000._dl*a**2*dtauda(State,a))/State%CP%H0)**2
-!     gpres = (gpres_noDE + grho_matter)*( 1._dl + State%CP%M*a**1/sqrt(grho_matter/State%grhocrit*EE+State%CP%N*a**2) ) -  grho
+    EE = (c/(1000._dl*a**2._dl*dtauda(State,a))/State%CP%H0)**2._dl
+!    gpres = (gpres_noDE + grho_matter)*( 1._dl + State%CP%M*a**1/sqrt(grho_matter/State%grhocrit*EE+State%CP%N*a**2) ) -  grho
 
-    gpres_DE = State%CP%M *a * (gpres_noDE + grho_matter )/(sqrt(grho_matter*EE/State%grhocrit + State%CP%N*a**2))-grhov_t*1._dl    
+    gpres_DE = State%CP%M *a * (gpres_noDE + grho_matter )/(sqrt(grho_matter/State%grhocrit + State%CP%N*a**2._dl)) - grhov_t
     gpres = gpres_noDE + gpres_DE
 
 !!!!WMG!!!!
